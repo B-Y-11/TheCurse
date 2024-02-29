@@ -1,0 +1,131 @@
+@startuml
+class Character {}
+class Player {
+Int playerId
+Character character
+List<Quest> playerGoals
+Int score
+void UpdateGoals()
+List<Quest> GetGoals()
+}
+Character --* Player
+Quest --* Player
+class GameManager {
+GameManager _instance
+GameFactory _factory
+Lobby lobby
+Scenario main_scenario
+Renderer renderer
+Player activePlayer
+{static} GameManager GetInstance()
+Player GetPlayer(Int playerId)
+void ConnectPlayer(Player player)
+void DisconnectPlayer(Player player)
+void Update() // is called every frame
+void LoadNewgame()
+void ManageEvents(Event[] events)
+void OpenSelectionUI(Player player, Ability ability)
+void PerformAbility(Target target, Action action)
+void ChangeActivePlayer()
+void PlayerAIControl(Player player)
+void PerformGoalAction(Quest quest, Character character)
+void OpenEquipmentMenu(Player player)
+void ChangeEquipment(Player player, Item item)
+void MoveCharacter(character, tile)
+}
+class Scenario {
+List<Character> charaters
+Location location
+List<Quest> quests
+Dictionary<Player, Quest> active_quests
+Dictionary<Player, Quest> completed_quests
+Dictionary<Player, Quest> failed_qusets
+Condition win_condition
+Cusre curse
+void TryComplete()
+void UpdateQuestSequence()
+void AddNewQuest(Quest quest)
+void GiveQuest(Player player, Quest quest)
+bool TryCompleteQuest(Quest quest)
+void UpdateQuestState(Quest quest)
+}
+Curse --* Scenario 
+class Lobby {
+Player[] players
+Location location
+Curse curse
+void ConnectPlayer(Player player)
+void DisconnectPlayer(Player player)
+Player GetPlayer(Int playerId)
+void GenerateGameInstance()
+Location GetLocation()
+Curse GetCurse()
+}
+Location --* Lobby
+Curse --* Lobby
+Player --* Lobby
+class GameFactory {
+CharacterFactory cf
+QuestFactory qf
+
+Scenario CreateScenario(Character[] playerCharacters, Curse curse)
+}
+class CharacterFactory {
+Character CreateCharacter(CharacterType cType, Location location)
+}
+class QuestFactory {
+Quest CreateQuest(String Name, String Descr, Condition[] conditions, Int reward)
+}
+CharacterFactory --* GameFactory 
+QuestFactory --* GameFactory 
+GameFactory --* GameManager
+class Quest {
+String Name
+String Description
+Condition[] conditions
+Int reward
+Bool TryComplete()
+Int GetReward()
+}
+
+class Condition {
+String Name
+Event event
+Bool conditions
+Bool Check()
+}
+Condition --* Quest 
+Scenario --* GameManager
+Condition --* Scenario 
+Quest--* Scenario 
+class Renderer {
+void DrawCharacters(Character[] characters)
+void DrawTiles(Tile[] tiles)
+}
+
+class Curse {
+String Name
+String Description
+Character[] special_characters
+Quest[] special_quests
+Condition win_condition
+Event[] events
+}
+Renderer --* GameManager
+Lobby --* GameManager
+class SelectionUI {
+Player player
+Ability ability
+void SetActive()
+void Select()
+void Confirm()
+}
+SelectionUI --* GameManager
+class EquipmentMenu {
+Player player
+void SetActive()
+void Select()
+void Close()
+}
+EquipmentMenu --* GameManager
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+class Registry<T> {
+T[] data
+void Register(T item)
+}
+class Attribute {
+String name
+Int base_value
+Int max_value
+Int min_value
+Int GetValue()
+}
+class AttributeInstance {
+Attribute attribute
+List<AttributeModifier> modifiers
+Int amount
+void AddModifier(AttributeModifier modifier)
+void AddPermanentModifier(AttributeModifier modifier)
+void RemoveModifier(AttributeModifier modifier)
+Int GetValue()
+}
+Attribute --o AttributeInstance
+
+class Attributes {
+{static}{field} Attribute STR = Register(...) 
+{static}{field} Attribute AGI
+{static}{field} Attribute INT
+{static}{field} Attribute MAX_HP
+{static}{field} Attribute ATK
+{static}{field} Attribute DEF 
+Attribute Register(String name, Int base_value, Int max_value, Int min_value)
+}
+note left of Attributes::STR
+  Same for other registred fields
+end note
+Attributes --* Registry
+Attribute --* Attributes
+Attribute --* Registry
+
+class Character {
+}
+class CharacterType {
+{static}{field} Character Aristocrat
+{static}{field} Character Archeologist
+{static}{field} Character Ballerina
+{static}{field} Character Hunter
+{static}{field} Character Thief
+{static}{field} Character Werewolf
+{static}{field} Character Howling_maiden
+{static}{field} Character Ghost
+{static}{field} Character Volkolak
+{static}{field} Character Bandit
+Character Register(String name, Character base, CharacterFactory factory)
+Character Spawn(Character base, CharacterFactory factory)
+}
+Character --o CharacterType
+CharacterType --* Registry
+
+
+
+@enduml

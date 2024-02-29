@@ -1,0 +1,45 @@
+@startuml
+class Location {
+Tile[,] map
+
+Tile GetTile(Int x, Int y)
+Character GetCharacter(Int x, Int y)
+Character GetCharacter(Tile tile)
+List<Tile> GetPath(Tile start, Tile destination)
+Int GetPathLenght(List<Tile> path)
+Tile[] GetTilesInRange(Tile origin, Int range, Func condition)
+}
+note left of Location::GetPathLenght
+ In AP required
+end note
+class Tile {
+Character standing_character
+TileObject object
+Boolean isPassable
+List<Effect> appliedEffects
+void ApplyEffect(Effect effect)
+Character GetCharacter()
+TileObject GetTileObject()
+void Tick()
+Boolean IsPassable()
+}
+note left of Tile::Tick
+ Tick's standing character too
+end note
+class TileObject {
+object Interact()
+}
+class ItemContainer {
+Inventory inventory
+Inventory Interact()
+}
+class PointOfInterest {
+String story
+Int difficulty
+String Interact()
+}
+TileObject --* Tile
+ItemContainer --|> TileObject
+PointOfInterest --|> TileObject
+Tile --* Location
+@enduml

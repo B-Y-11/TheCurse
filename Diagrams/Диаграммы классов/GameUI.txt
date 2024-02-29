@@ -1,0 +1,127 @@
+@startuml
+class LobbyPanel {
+Button ReadyForGameBtn
+Button ExitLobbyBtn
+Button ConfirmCharacterBtn
+ListBox LocationSelectionLB
+ListBox CurseSelectionLB
+ListBox CharacterSelectionLB
+Text PlayersDisplayText
+Image CharacterIconImage
+void ReadyForGameBtnClick()
+void ExitLobbyBtnClick()
+void ConfirmCharacterBtnClick()
+void LocationSelectionLBIndexChanged()
+void CurseSelectionLBIndexChanged()
+}
+class LobbySelectionPanel {
+Button JoinLobbyBtn
+Button BackToMenuBtn
+ListBox LobbySelectionLB
+void JoinLobbyBtnClick()
+void BackToMenuBtnClick()
+}
+class MainFrame {
+Button CreateLobbyBtn
+Button JoinLobbyBtn
+Button ExitGameBtn
+LobbyPanel lobbyPanel
+LobbySelectionPanel lsPanel
+void CreateLobbyBtnClick()
+void JoinLobbyBtnClick()
+void ExitGameBtnClick()
+}
+LobbyPanel --* MainFrame
+LobbySelectionPanel --* MainFrame
+
+class GameFrame {
+CharacterPanel cp
+ObjectDescriptionPanel odp
+CharacterControlPanel ccp
+DayNightCycleImage dncImg
+Button SettingsBtn
+void SettingsBtnClick()
+}
+GameFrame *-- CharacterPanel 
+GameFrame *-- DayNightCycleImage 
+GameFrame *-- ObjectDescriptionPanel 
+GameFrame *-- CharacterControlPanel 
+
+class CharacterPanel {
+Image CharacterImage
+Text NameText
+Text STRText
+Text AGIText
+Text INTText
+Text HPText
+Text SPText
+Text APText
+ItemSlotUI[] itemSlots
+EquipmentSlotUI HelmetESUI
+EquipmentSlotUI BodyESUI
+EquipmentSlotUI BootsESUI
+EquipmentSlotUI GlovesESUI
+EquipmentSlotUI MainWeaponESUI
+EquipmentSlotUI SecondaryWeaponESUI
+EquipmentSlotUI NecklaceESUI
+EquipmentSlotUI RingESUI
+ItemDescriptionPanel idp
+void Update()
+}
+class ItemSlotUI {
+Image ItemImg
+void Hover()
+void Click()
+}
+class EquipmentSlotUI {
+Image ItemImg
+void Hover()
+void Click()
+}
+class ItemDescriptionPanel {
+Image ItemIcon
+Text NameText
+Text DescriptionText
+Text StatText
+}
+CharacterPanel *-- ItemSlotUI 
+CharacterPanel *-- EquipmentSlotUI 
+CharacterPanel *-- ItemDescriptionPanel 
+class DayNightCycleImage {
+Image CurrentTimeImg
+Image[] NextTimesImg
+Image[] PreviousTimesImg
+void Tick()
+}
+class ObjectDescriptionPanel {
+Image ItemIcon
+Text NameText
+Text DescriptionText
+Text StatText
+Button InspectBtn
+Button InteractBtn
+void InspectBtnClick()
+void InteractBtnClick()
+}
+class CharacterControlPanel {
+Button CharacterPanelBtn
+Button MoveBtn
+Button GuardBtn
+Button InspectBtn
+Button AttackBtn
+Button AbilityOneBtn
+Button AbilityTwoBtn
+Button AbilityThreeBtn
+Button RestBtn
+void Update()
+void CharacterPanelBtnClick()
+void MoveBtnClick()
+void GuardBtnClick()
+void InspectBtnClick()
+void AttackBtnClick()
+void AbilityOneBtnClick()
+void AbilityTwoBtnClick()
+void AbilityThreeBtnClick()
+void RestBtnClick()
+}
+@enduml

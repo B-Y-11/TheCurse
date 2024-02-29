@@ -1,0 +1,158 @@
+@startuml
+class AttributeInstance {
+Attribute base
+Int amount
+List<AttributeModifier> modifiers
+void AddModifier(AttributeModifier modifier)
+void AddPermanentModifier(AttributeModifier modifier)
+void RemoveModifier(AttributeModifier modifier)
+Int GetValue()
+}
+class AttributeModifier {
+ModifierType type
+Int amount
+}
+enum ModifierType {
+ADDITION
+MULTIPLICATION
+}
+abstract Ability {
+String name
+String description
+TargetType[] avaliable_targets
+Int usage_range
+Int area_range
+void Use(ITargetable target)
+}
+abstract Effect {
+String name
+String description
+Int time_remains
+ITargetable target
+void OnApply(ITargetable target)
+void OnRemove(ITargetable target)
+void Tick()
+}
+note right of Effect::time_remains
+ setup on application, adjust on tick
+end note
+class Target {
+TargetType type
+ITargetable[] targets
+ITargetable[] GetTargets()
+}
+interface ITargetable {
+TargetType type
+TargetType GetType()
+}
+ITargetable <|-- Character
+ITargetable <|-- Tile
+ITargetable <|-- NoTarget
+enum TargetType {
+CHARACTER
+AREA_TILE
+AREA_CHARACTER
+TILE
+NO_TARGET
+}
+class NoTarget {
+}
+class Tile {
+String id
+Character standing_character
+TileObject object
+List<Effect> appliedEffects
+void ApplyEffect(Effect effect)
+Character GetCharacter()
+TileObject GetTileObject()
+void Tick()
+}
+Effect --o Tile
+class Inventory {
+ItemSlot[] slots
+void AddItem(Item item)
+void RemoveItem(Item item)
+}
+class ItemSlot {
+Item item
+Int count
+}
+ItemSlot --* Inventory
+Item --o ItemSlot
+class Equipment {
+Character owner
+Weapon weapon
+EquipmentSlot[] equipment_slots
+void EquipItem(EquipmentItem item)
+void UnequipItem(EquipmentItem item)
+}
+class EquipmentSlot {
+SlotType type
+EquipmentItem item
+}
+enum SlotType {
+HEAD
+TORSO
+LEGS
+BOOTS
+RING
+AMULET
+}
+Equipment *-- EquipmentSlot : < Has all types
+class Item {
+String name
+String description
+}
+class EquipmentItem {
+SlotType type
+Attribute[] attributes
+void Equip()
+void Unequip()
+}
+class UsableItem {
+Ability usage_ability
+}
+UsableItem --|> Item
+UsableItem o-- Ability
+EquipmentItem --|> Item
+EquipmentSlot <- EquipmentItem
+EquipmentItem *-- AttributeInstance
+Equipment *- Item
+class Weapon {
+Ability attack_ability
+}
+Weapon --|> EquipmentItem
+Equipment <-- Weapon
+Weapon o-- Ability
+
+class Rest {
+}
+class Move {
+}
+Rest --|> Ability
+Move --|> Ability
+
+abstract Character {
+String name
+Equipment equipment
+Inventory inventory
+Int currentAP
+List<Attribute> attributes
+List<Ability> abilities
+List<Effect> appliedEffects
+Attribute GetAttribute(AttributeType type)
+void UseAbility(String name, Target target)
+void UseAttackAbility(Target target)
+void UseItem(Item item, Target target)
+void Move(Target target)
+void Rest()
+void Tick()
+void ApplyEffect(Effect effect)
+}
+Character *-- AttributeInstance : < Has all types
+AttributeInstance *- AttributeModifier
+Ability --o Character
+Equipment --* Character
+Inventory --* Character
+Effect --o Character
+@enduml
