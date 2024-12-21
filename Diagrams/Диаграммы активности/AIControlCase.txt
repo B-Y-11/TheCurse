@@ -1,0 +1,33 @@
+@startuml
+
+start
+
+:Previous turn ended;
+:AI controlled character takes the turn;
+:GameManager takes control over the character \nand checks it's goals;
+label lb1
+:Goal queue is updated, so __first__ in line goal is taken \nto further accomplishment and put to __end__ of list;
+if (Goal is to attack something?) then (yes)
+   if (Target in attack range?) then (yes)
+      :GameManager makes active character \nuse __random attacking ability__ on selected __target__;
+   else (no)
+      :GameManager makes active character move \ntowards __closest position__ from which it \ncan use abilities on it's target;
+   endif
+elseif (Goal is to get item) then (yes)
+   if (Item in pickup range?) then (yes)
+      :GameManager makes active character \npick up targeted item;
+   else (no)
+      :GameManager makes active character move \ntowards __closest position__ from which it \ncan pick up item;
+   endif
+else (goal is unknown)
+   :Remove goal from list;
+   goto lb1
+endif
+if (Goal is accomplished?) then (yes)
+   :Remove goal from list;
+else (no)
+endif
+
+stop
+
+@enduml

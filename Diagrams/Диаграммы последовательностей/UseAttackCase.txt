@@ -1,0 +1,11 @@
+@startuml
+Player -> AttackBtn : Click()
+AttackBtn -> GameManager : OpenSelectionUI(player, attack)
+GameManager -> SelectionUI : SetActive()
+activate SelectionUI 
+Player -> SelectionUI : Select()
+SelectionUI -> GameManager : PerformAbility(target, attack)
+deactivate SelectionUI 
+GameManager -> CharacterA : UseAttackAbility(CharacterB)
+CharacterA -> CharacterB : TakeAbility(attack)
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+Player -> UseAbilityBtn : Click()
+UseAbilityBtn -> GameManager : OpenSelectionUI(player, ability)
+GameManager -> SelectionUI : SetActive()
+
+activate SelectionUI 
+alt Character targeted
+
+    Player -> SelectionUI : Select()
+    SelectionUI --> GameManager : PerformAbility(target, ability)
+    deactivate SelectionUI 
+    GameManager -> CharacterA : UseAbility(ability, target)
+    CharacterA -> CharacterB : TakeAbility(ability)
+
+else No target
+
+    activate SelectionUI
+    Player -> SelectionUI : Confirm()
+    SelectionUI --> GameManager : PerformAbility(NO_TARGET, ability)
+    deactivate SelectionUI
+    GameManager -> CharacterA : UseAbility(ability, NO_TARGET)
+
+end
+@enduml

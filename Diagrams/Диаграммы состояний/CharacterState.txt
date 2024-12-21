@@ -1,0 +1,27 @@
+@startuml
+state Idle {
+}
+state Active {
+}
+state Resting {
+}
+Idle --> Active : GameManager.ChangeActivePlayer()
+Active --> Resting : Character.Rest()
+Resting --> Idle
+Resting : GameManager.ChangeActivePlayer()
+state UsingAbility {
+}
+UsingAbility : Character.UseAbility(ability, target)
+state ChangingEquipment {
+}
+ChangingEquipment : Character.equipment.Equip(item)
+state BeingAffectedByAbility {
+}
+BeingAffectedByAbility : Character.TakeAbility(ability)
+Idle --> BeingAffectedByAbility : GameManeger.PerformAbility(target, ability)
+BeingAffectedByAbility --> Idle
+Active --> ChangingEquipment : GameManager.ChangeEquipment(player, item)
+ChangingEquipment --> Active
+Active --> UsingAbility : GameManeger.PerformAbility(target, ability)
+UsingAbility --> Active
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+component GameManager
+component Character
+component Location
+[Scenario]
+[CharacterType]
+GameManager -(0)- Character
+Scenario -(0- GameManager
+Character -(0- CharacterType
+Location -(0- Scenario
+[UI]
+UI -(0)- GameManager
+@enduml

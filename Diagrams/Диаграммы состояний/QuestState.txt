@@ -1,0 +1,20 @@
+@startuml
+state Stored {
+}
+state Given {
+}
+state InProgress {
+}
+state Completed {
+}
+state Failed {
+}
+Stored --> Given : GameManager.main_scenario.GiveQuest(player, quest)
+Given --> InProgress : GameManager.main_scenario.UpdateQuestSequence()
+InProgress --> Completed : GameManager.main_scenario.TryCompleteQuest(quest) : true
+InProgress --> Failed : GameManager.main_scenario.TryCompleteQuest(quest) : false
+Completed --> Stored
+Failed --> Stored
+Completed : GameManager.main_scenario.UpdateQuestState(this)
+Failed : GameManager.main_scenario.UpdateQuestState(this)
+@enduml

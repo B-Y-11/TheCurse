@@ -1,0 +1,24 @@
+@startuml
+
+start
+
+:Player clicks the ability button;
+:SelectionUI opens for the player\nand clicked ability;
+:SelectionUI highlights avaliable for targeting tiles;
+if (Ability is targeted?) then (yes)
+   :Player selects targeted tile;
+   :SelectionUI sends info about \n__target__ and __ability__ to GameManager;
+   :GameManager makes active character \nuse selected __ability__ on selected __tile__;
+   if (Target is a character?) then (yes)
+      :Targeted character takes the ability effect;
+   else (no)
+      :Targeted tile takes the ability effect;
+   endif
+else (no)
+   :Player clicks confirmation button;
+   :SelectiionUI sends __no-targeted__ info \nand __ability__ to GameManager;
+   :GameManager makes active character \nuse selected ability without target;
+endif
+stop
+
+@enduml

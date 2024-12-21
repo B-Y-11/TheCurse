@@ -1,0 +1,19 @@
+@startuml
+title Physical Diagram
+
+artifact Mouse
+Mouse --> PC
+storage PC {
+collections CharacterType
+collections Scenario
+collections Location
+component Game.exe
+component UnityEngine
+component Windows
+}
+Game.exe <-- CharacterType
+Game.exe <-- UnityEngine
+Game.exe <-- Scenario
+Scenario <-- Location
+Windows --> UnityEngine
+@enduml

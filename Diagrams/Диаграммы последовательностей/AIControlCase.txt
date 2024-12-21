@@ -1,0 +1,21 @@
+@startuml
+GameManager -> Player : PlayerAIControl(player)
+Player -> Player : UpdateGoals()
+Player --> GameManager : GetGoals()
+GameManager -> Character : PerformGoalAction(quest, character)
+Character --> GameManager
+alt Attack
+
+    GameManager -> Character : UseAttackability(CharacterB)
+    Character -> CharacterB : TakeAbility(ability)
+
+else Move
+
+    GameManager -> Character : Move(target)
+    Character -> GameManager : MoveCharacter(character, tile)
+    GameManager -> Location : GetPath(start, end)
+    Location --> GameManager
+    GameManager -> Tile : SetCharacter(character)
+
+end
+@enduml
